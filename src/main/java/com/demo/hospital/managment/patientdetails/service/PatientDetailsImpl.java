@@ -16,10 +16,24 @@ public class PatientDetailsImpl implements IPatientDetailsService {
 
 	@Override
 	public Long addPatientDetails(PatientDetails patientDetails) {
-
+		PatientDetails pt=patientDetailsRepo.findByuserId(patientDetails.getUserId());
+         if(patientDetails.getId()==null) {
 		PatientDetails patient = patientDetailsRepo.save(patientDetails);
 		return patient.getId();
+         }else {
+        PatientDetails ps=getUserById(patientDetails.getId());
+       return patientDetailsRepo.save(ps).getId();
+         }
+		
 	}
+	
+
+   @Override
+    public Long updatePatientDetail(PatientDetails patientDetails) {
+       // log.info("Service---------Updating patient Details");
+        return patientDetailsRepo.save(patientDetails).getId();
+    }
+ 
 
 	@Override
 	public List<PatientDetails> getAllUser() {

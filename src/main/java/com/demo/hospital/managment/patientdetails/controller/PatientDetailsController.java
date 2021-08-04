@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +22,7 @@ import com.demo.hospital.managment.patientdetails.repository.AllergyMasterReposi
 import com.demo.hospital.managment.patientdetails.repository.AllergyRepository;
 import com.demo.hospital.managment.patientdetails.service.IPatientDetailsService;
 import com.demo.hospital.managment.patientdetails.util.MessageResponseDto;
+import com.demo.hospital.managment.patientdetails.util.PatientDetailsUtil;
 import com.demo.hospital.managment.patientdetails.util.StatusMessage;
 
 @RestController
@@ -56,6 +58,47 @@ public class PatientDetailsController {
 	e.printStackTrace();
 	}
 	return resp;
+	}
+	
+//	@PutMapping("/save")
+//	public ResponseEntity<MessageResponseDto> updatePatientDetails(@RequestBody PatientDetails patientDetails) {
+//	ResponseEntity<MessageResponseDto> resp = null;
+//	log.info("save patient details");
+//	try {
+//
+//	 Long id = patientDetailsService.addPatientDetails(patientDetails);
+//	log.info("sending the response");
+//	resp = new ResponseEntity<>(new MessageResponseDto(StatusMessage.USER_DETAILS_UPDATE.getMessage()),
+//	HttpStatus.OK);
+//	} catch (Exception e) {
+//	log.error("save api catch block");
+//
+//	 resp = new ResponseEntity<>(new MessageResponseDto(StatusMessage.SERVER_ERROR.getMessage()),
+//	HttpStatus.INTERNAL_SERVER_ERROR);
+//	e.printStackTrace();
+//	}
+//	return resp;
+//	}
+	
+	@PutMapping("/modify/{id}")
+    public ResponseEntity<MessageResponseDto> updatePatientDetails(@PathVariable Long id,
+            @RequestBody PatientDetails patientDetail) {
+        ResponseEntity<MessageResponseDto> resp = null;
+        try {
+            log.info("Controller try {} Updating Patinet Details");
+            PatientDetails dbPatientDetails = patientDetailsService.getUserById(id);
+            PatientDetailsUtil.copyNonNullValues(dbPatientDetails, patientDetail);
+            patientDetailsService.updatePatientDetail(dbPatientDetails);
+            log.info("Controller try {} Updating Patinet Details Sending Response");
+
+ 
+
+          return  resp = new ResponseEntity<>(new MessageResponseDto(StatusMessage.USER_DETAILS_UPDATED.getMessage()),
+                    HttpStatus.OK);
+        } catch (Exception e) {
+            log.info("Exception Occured" + e.getMessage());
+          return resp = new ResponseEntity<>(new MessageResponseDto(StatusMessage.SERVER_ERROR.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}
 	
 	@GetMapping("/getAll")

@@ -13,5 +13,7 @@ public interface IPatientDetailsService {
 	public PatientDetails getUserById(Long id);
 	
 	public PatientDetails getByUserId(Long userId);
+	
+	 Long updatePatientDetail(PatientDetails patientDetails);
 
 }

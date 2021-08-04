@@ -29,7 +29,7 @@ public class PatientDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 
 	@Column(name = "title")
 	private String title;
@@ -112,16 +112,10 @@ public class PatientDetails {
 	@Column(name = "emgr_country")
 	private String emgr_country;
 
-	@Column(name = "allergy_fatal")
-	private String allergy_fatal;
-
-	@Column(name = "allergy_desc")
-	private String allergy_desc;
-
 	@Column(name = "userId")
 	private Long userId;
 
-	@OneToMany(targetEntity = Allergy.class, cascade = CascadeType.ALL)
+	@OneToMany(targetEntity = Allergy.class,cascade = CascadeType.ALL)
 	@JoinColumn(name = "pd_fk", referencedColumnName = "id")
 	private Set<Allergy> allergies;
 

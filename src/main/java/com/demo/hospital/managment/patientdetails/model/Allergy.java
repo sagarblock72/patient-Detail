@@ -28,5 +28,11 @@ public class Allergy {
 
 	@Column(name = "allergy_type")
 	private String allergy_type;
+	
+	@Column(name = "allergy_fatal")
+	private String allergy_fatal;
+
+	 @Column(name = "allergy_desc")
+	private String allergy_desc;
 
 }
